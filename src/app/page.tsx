@@ -1,9 +1,11 @@
+"use client";
 import Image from "next/image";
-
-export default function Home() {
+import AppLayout from "@/components/AppLayout";
+ function Home() {
   return (
 <div>
-  home
+  homeioyou
 </div>
   );
 }
+export default AppLayout()(Home);

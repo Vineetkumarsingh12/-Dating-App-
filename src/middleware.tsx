@@ -7,9 +7,9 @@ export function middleware(req: NextRequest) {
   console.log(`Request received: ${req.url}`);
 
   // Redirect unauthenticated requests to the root page to the login page
-  if (!isAuthenticated && req.nextUrl.pathname === '/') {
-    return NextResponse.redirect(new URL('/login', req.url));
-  }
+  // if (!isAuthenticated && req.nextUrl.pathname === '/') {
+  //   return NextResponse.redirect(new URL('/login', req.url));
+  // }
 
   // Continue processing the request
   return NextResponse.next();
