@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/layouts/AppLayout.jsxsx", "src/components/AppLayout.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/layouts/AppLayout.jsxsx", "src/components/AppLayout.jsx", "src/app/groups/page.jsx"],
   "exclude": ["node_modules"]
 }

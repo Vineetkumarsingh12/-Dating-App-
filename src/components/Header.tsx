@@ -48,7 +48,7 @@ const Header = () => {
   }
 
   return (
-    <div className={`h-[4rem] bg-[${orange}] p-3 `}>
+    <div className={`h-[4rem] bg-[${orange}] p-5 `}>
     
     <div className='flex justify-between '>
      <Options
@@ -65,12 +65,12 @@ const Header = () => {
         <Options
         title='Add'
         Icon={IoMdAdd}
-        handle={()=>{}}
+        handle={handleNewGroup}
         />
         <Options 
         title='Group'
         Icon={MdGroups}
-        handle={handleNewGroup}
+        handle={navigateToGroup}
         />
         <Options
         title='Notification'
@@ -100,12 +100,15 @@ const Header = () => {
 
 const Options =({title,Icon,handle}:any)=> { 
    return(
-    <div className=' relative group' onClick={handle}>
+    <div className=' relative group  cursor-pointer' onClick={handle}>
    <Icon  className=' text-[2rem]'/>
-   <p className=' absolute  w-fit p-1 bg-gray-400 rounded-lg text-white hidden group-hover:block left-[-15px]'>
+   <p className=' absolute  w-fit p-1 bg-gray-400 rounded-lg text-white hidden group-hover:block left-[-18px] z-10'>
       {title}
    </p>
+  
     </div>
+ 
+
    )
 }
 export default Header;
