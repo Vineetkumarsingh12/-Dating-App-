@@ -24,7 +24,7 @@ const AppLayout = () => WrappedComponent => {
      
  
  <div className='flex bg-green-500    h-[calc(100vh-4rem)]'>
- <div  className=' bg-slate-600  hidden moblie:block flex-grow-[1]'>
+ <div  className=' bg-slate-600  hidden moblie:block flex-grow-[1] overflow-y-auto'>
   <ChatList chats={sampleCharts} chatId={chatId}
 
   

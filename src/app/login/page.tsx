@@ -6,7 +6,7 @@ import { FaCamera } from "react-icons/fa";
 import Image from 'next/image';
 import axios from "axios";
 
-export default function Page({ params }: any) {
+export default function Page() {
     interface IFormInput {
         name: string;
         email: string;
@@ -105,7 +105,7 @@ export default function Page({ params }: any) {
                 input:focus + .placeholder-label, input:not(:placeholder-shown) + .placeholder-label {
                     top: -0.5rem;
                     font-size: 0.8rem;
-                    color: #4299e1;
+                    color: white;
                     padding: 0 0.25rem;
                     background-color:rgb(80 214 29 );
                    
