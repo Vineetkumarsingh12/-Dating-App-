@@ -17,7 +17,7 @@ export default function Page() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { register, handleSubmit } = useForm<IFormInput>();
     const [isLogin, setIsLogin] = useState(false);
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState('');
     const [preview, setPreview] = useState(null);
 
     const imgClick = () => {
@@ -40,6 +40,35 @@ export default function Page() {
         console.log(data);
         const { name, email, password, confirmPassword } = data;
         // Your form submission logic here
+        if (isLogin) {
+            if (password !== confirmPassword) {
+                alert('Password and confirm password do not match');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('password', password);
+            formData.append('image', image);
+            axios.post('http://localhost:5000/register', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.error(err);
+            });
+        } else {
+            axios.post('http://localhost:5000/login', {
+                email,
+                password
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.error(err);
+            });
+        }
     }
 
     return (

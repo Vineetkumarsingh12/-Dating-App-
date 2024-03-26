@@ -1,21 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server';
+import * as jose from 'jose';
+// import {header}
 
-export function middleware(req: NextRequest) {
-  // Assuming you have a mechanism to determine authentication state
-  const isAuthenticated = false; // Replace with your actual authentication check
+const isAuthenticated = async (req: NextRequest) => {
+    try {
+         const token = req.cookies.get('token');
+         
 
-  console.log(`Request received: ${req.url}`);
+        if (!token) {
+            return Promise.reject(NextResponse.redirect('/api/user/login'));
+        }
+        return Promise.resolve(NextResponse.next());
+     
+    } catch (error) {
+        console.error('Error in isAuthenticated middleware:', error);
+        return Promise.reject(NextResponse.error());
+    }
+};
 
-  // Redirect unauthenticated requests to the root page to the login page
-  // if (!isAuthenticated && req.nextUrl.pathname === '/') {
-  //   return NextResponse.redirect(new URL('/login', req.url));
-  // }
 
-  // Continue processing the request
-  return NextResponse.next();
+
+
+export async function middleware(req: NextRequest) {
+    console.log(`Request received: ${req.url}`);
+
+    if (req.url.includes('/profile')) {
+        try {
+            await isAuthenticated(req);
+        } catch (error) {
+            console.error('Error in middleware:', error);
+            return NextResponse.error();
+        }
+    }
+
+    return NextResponse.next();
 }
+
 
 // Apply middleware to all requests within the root directory
 export const config = {
-  matcher: ['/'],
+  matcher: ['/api/profile'],
 };

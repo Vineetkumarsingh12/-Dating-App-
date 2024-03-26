@@ -4,6 +4,8 @@ const nextConfig = {
     images: {
         domains: ['www.w3schools.com','daisyui.com'],
     },
+
+   
     
 };
 
