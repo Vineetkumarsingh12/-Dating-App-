@@ -2,6 +2,7 @@ import  {NextResponse} from 'next/server';
 import dbConnect from '../../../../utils/dbConnect';
 import chat from '../../../../model/chat';
 import decodeCookie from '../../../../utils/decodeCookie';
+import { getOtherMember } from '../../../../utils/getOtherMember';
 
 export async function GET(req){
     await dbConnect();
@@ -13,7 +14,7 @@ export async function GET(req){
         return {
             _id,
             name,
-            avatars:groupChat?members.slice(0,3).map(({avatar})=>avatar.url):members.find(({_id})=>_id.toString()!==userId).avatar.url,
+            avatars:groupChat?members.slice(0,3).map(({avatar})=>avatar.url):getOtherMember(members,userId).avatar.url,
             members:members.reduce((prev,curr)=>{
                 if(curr._id.toString()!==userId){
                     return prev.push(curr._id)
