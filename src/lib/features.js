@@ -1,5 +1,5 @@
 import moment from "moment";
-import {userSocketIDs} from "../../server.js";
+// import {userSocketIDs} from "../../server.js";
 
 
 const fileFormate=(url='')=>{
@@ -43,9 +43,10 @@ const  getLastSevenDays=()=>{
     }
 
 
- const getSockets=(users)=>{
- const sockets=users.map(user=>userSocketIDs.get(user._id.toString()));
-    return sockets;
- }   
+//  const getSockets=(users)=>{
+//  const sockets=users.map(user=>userSocketIDs.get(user._id.toString()));
+//     return sockets;
+//  }   
     
-export {getLastSevenDays,fileFormate,transformImage,getSockets};
+// export {getLastSevenDays,fileFormate,transformImage,getSockets};
+export {getLastSevenDays,fileFormate,transformImage};

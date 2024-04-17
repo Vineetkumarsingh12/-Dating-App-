@@ -13,7 +13,7 @@ import {useError} from "../hooks/hooks";
 
 
 const AppLayout = () => WrappedComponent => {
-  const AppLayoutWrapper = (props) => {
+  const AppLayoutWrapper =  (props) => {
     console.log("AppLayoutWrapper",WrappedComponent);
     const params=useParams();
     const chatId= params?.chatId;
@@ -22,7 +22,7 @@ const AppLayout = () => WrappedComponent => {
   //  const handleMobileClose=()=>dispatch(setIsMobile(false));
 
 
-  const {data,isLoading,isError,error,refetch}= useMyChatsQuery();
+  const {data,isLoading,isError,error,refetch}=  useMyChatsQuery();
   useError([{isError,error}]);
 
 console.log("data in appLayout",data);
