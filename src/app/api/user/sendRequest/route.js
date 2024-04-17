@@ -10,18 +10,23 @@ import Request from "../../../../model/request";
 export async function PUT(req){
     dbConnect();
     try{
-        const {userId:RequestId}=req.json();
+        const {userId:RequestId}=await req.json();
+      
         const userId=await decodeCookie(req);
         
-        const request=await Request.findOne({$or:[{sender:userId,reciever:RequestId},{sender:RequestId,reciever:userId}]});
+        console.log(RequestId,userId);
+        
+        const request=await Request.findOne({$or:[{sender:userId,receiver:RequestId},{sender:RequestId,receiver:userId}]});
+        console.log('pass1');
 
         if(request){
             return NextResponse.json({success:false,
                 message:'Request already sent'
             },{status:400});
         }
-        
-        await Request.create({sender:userId,reciever:RequestId});
+        console.log("pass2");
+        await Request.create({sender:userId,receiver:RequestId});
+        console.log("pass3");
 
         emitEvent(req,New_request,[RequestId]);
         return NextResponse.json({success:true,

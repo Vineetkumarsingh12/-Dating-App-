@@ -6,6 +6,7 @@ export default  async function  decodeCookie(req) {
        
         // console.log("decode11234",token)
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
 
         return decoded.user.id;
 

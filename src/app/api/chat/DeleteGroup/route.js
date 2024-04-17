@@ -3,7 +3,7 @@ import dbConnect from '@/utils/dbConnect';
 import Chat from '../../../../model/chat';
 import { emitEvent } from '../../../../utils/emitEvent';
 import { refetch_chats } from '../../../../constants/events';
-import { decodeCookie } from '../../../../utils/decodeCookie';
+import decodeCookie  from '../../../../utils/decodeCookie';
 import { deleteFileFromCloudinary } from '../../../../utils/DeleteFileFormCloudinary';
 import message from '../../../../model/message';
 

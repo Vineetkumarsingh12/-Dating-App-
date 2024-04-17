@@ -18,6 +18,7 @@ export async function POST(req) { // Use `default` for Next.js API route
   try {
     // Extract form data
     const formData = await req.formData();
+    console.log(formData);
     const name = formData.get('name');
     const username = formData.get('username');
     const email = formData.get('email');

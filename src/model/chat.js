@@ -1,22 +1,25 @@
-import { Schema,model,models } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
-const chatSchema=new  Schema({
-    name:{
-        type:String,
-        required:true
+const chatSchema = new Schema({
+    name: {
+        type: String,
+        required: true
     },
-    groupChat:{
-        type:String,
-       default:false
+    groupChat: {
+        type: String,
+        default: false
     },
-   creator:{
-    type:Types.ObjectId,
-    ref:'User'
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
-   
- members:[{
-    type:Types.ObjectId,
-    ref:'User'
-    }],
-    },{timestamps:true});
-export default    models.chatSchema||model('Chat',chatSchema);
+    members: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
+}, { timestamps: true });
+
+// Check if the Chat model already exists in the models object
+const ChatModel = models.Chat || model('Chat', chatSchema);
+
+export default ChatModel;

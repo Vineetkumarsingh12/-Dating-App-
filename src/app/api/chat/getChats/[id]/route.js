@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/dbConnect';
-import Chat from '../../../../model/chat';
-import User from '../../../../model/user';
-import { emitEvent } from '../../../../utils/emitEvent';
-import {New_attachment, New_message_alert} from '../../../../constants/events';
-import message from '../../../../model/message';
+import Chat from '../../../../../model/chat';
+import User from '../../../../../model/user';
+import { emitEvent } from '../../../../../utils/emitEvent';
+import {New_attachment, New_message_alert} from '../../../../../constants/events';
+import message from '../../../../../model/message';
 
 export async function GET(req){
     dbConnect();

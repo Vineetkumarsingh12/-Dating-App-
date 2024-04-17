@@ -9,6 +9,7 @@ import { cookies } from "next/headers";
 export async function POST(req) {
     await dbConnect();
     try {
+        
         const { email, password } = await req.json();
         console.log(email, password);
 

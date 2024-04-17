@@ -4,24 +4,31 @@ import { emitEvent } from "@/utils/emitEvent";
 import { New_request, refetch_chats } from "../../../../constants/events";
 import decodeCookie from "../../../../utils/decodeCookie";
 import Request from "../../../../model/request";
+import Chat from "../../../../model/chat";
 
 export async function PUT(req){
     dbConnect();
     try{
-        const {userId:RequestId,accept}=req.json();
-        const userId=await decodeCookie(req);
-        const request=await Request.findById(RequestId).populate('sender',"name").populate('reciever',"name");
+        const {RequestId,accept}= await req.json();
+        console.log("request id",RequestId);
+        console.log("accept",accept)
 
-        if(request){
+        const userId=await decodeCookie(req);
+        const request=await Request.findById(RequestId).populate('sender',"name").populate('receiver',"name");
+        console.log("pass1");
+
+        if(!request){
             return NextResponse.json({success:false,
-                message:'Request already sent'
+                message:'Request  not exist '
             },{status:400});
         }
-      if(request.reciever._id.toString()===userId){
+        console.log("pass2");
+      if(request.receiver._id===userId){
         return NextResponse.json({success:false,
             message:'unauthorized access'
         },{status:400});
       }
+        console.log("pass3");
     
       if(!accept){
       await  request.deleteOne();
@@ -29,17 +36,21 @@ export async function PUT(req){
         message:'Request rejected'
     },{status:200});
       }
+        console.log("pass4");
 
-      const members=[request.sender._id,request.reciever._id];
+      const members=[request.sender._id,request.receiver._id];
 
       await Promise.all([Chat.create({members,
-    name:`${request.sender.name}-${request.reciever.name}`}),
+    name:`${request.sender.name}-${request.receiver.name}`}),
    request.deleteOne()]);
+    console.log("pass5");
 
    emitEvent(req,refetch_chats,members);
+   console.log("pass6");
    return NextResponse.json({success:true,
     message:'Request accepted'
 },{status:200});
+    
     }catch(e){
 
         return NextResponse.json({success:false,

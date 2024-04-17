@@ -17,17 +17,20 @@ const ChatList = ({
   return (
     <div>
       {chats.map((chat,index) => { 
-        const {avatar,_id,name,groupChat,members}=chat;
+        const {avatars,_id,name,groupChat,members}=chat;
+        console.log("members",members);
+        console.log("single chat",chat)
         const newMessageAlert= newMessageAlerts.find((item)=>item.chatId===_id);
-  const isOnline = members?.some((member) => onlineUsers.includes(member));
+        const isOnline = (members.length > 0) ? members.some((member) => onlineUsers.includes(member)) : false;
+
         return (
           <ChatItem 
           index={index}
             name={name}
           newAlertMessage={newMessageAlert} isOnline={isOnline}
-          avatar={avatar}
+          avatar={avatars}
           _id={_id}
-          key={_id}
+          key={index}
           groupChat={groupChat}
           sameSender={chatId === _id}
           handleDeleteChat={handleDeleteChat}

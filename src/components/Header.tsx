@@ -11,17 +11,26 @@ import { FiLogOut } from "react-icons/fi";
 import { useRouter} from 'next/navigation';
 // import SerachDialoge from './SerachDialoge';
 import dynamic from 'next/dynamic';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { userDoesNotExist } from '@/lib/reducers/auth';
 
 const SerachDialoge=dynamic(()=>import('./SerachDialoge'),{ssr:false});
 const NewGroup=dynamic(()=>import('./NewGroup'),{ssr:false});
 const Notification=dynamic(()=>import('./Notification'),{ssr:false});
+import {setIsSerach} from '@/lib/reducers/misc';
 
 const Header = () => {
 
  const navigate=useRouter();
+ const dispatch=useDispatch();
+ const {isSerach}=useSelector((state:any)=>state.misc);
+
+ console.log("isSearch",isSerach)
 
   const [isMoblile,setIsMobile]=useState(false);
-  const [isSearch,setIsSearch]=useState(false);
+
   const [isNotification,setIsNotification]=useState(false);
   const [isNewGroup,setIsNewGroup]=useState(false);
  
@@ -30,7 +39,7 @@ const Header = () => {
     setIsMobile(!isMoblile);
   }
   const handleSearch=()=>{
-    setIsSearch(!isSearch);
+    dispatch(setIsSerach(!isSerach));
   }
   const handleNotification=()=>{
     setIsNotification(!isNotification);
@@ -43,8 +52,17 @@ const Header = () => {
     console.log('group');
     navigate.push('/groups');
   }
-  const logoutHandler=()=>{
-    console.log('logout');
+  const logoutHandler=async()=>{
+    try{
+   const {data}=  await axios.get('/api/user/logout');
+     toast.success(data.message);
+     dispatch(userDoesNotExist());
+      navigate.push('/login');
+    } catch(err:any){
+      console.log(err);
+      toast.error('Something went wrong');
+    }
+     
   }
 
   return (
@@ -86,7 +104,7 @@ const Header = () => {
       </div>
 
       {
-        isSearch && <SerachDialoge/>
+        isSerach && <SerachDialoge/>
       }
       {
         isNotification && <Notification/>

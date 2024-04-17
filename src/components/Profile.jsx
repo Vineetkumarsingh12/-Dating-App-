@@ -1,17 +1,20 @@
 import React from 'react';
 import Image from 'next/image';
 import { FaInstagram } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
   return (
     <div className='flex flex-col gap-3 text-black'>
       <div className="avatar">
         <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-          <Image src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"  alt="profile" width={50} height={50}/>
+          <Image src={user?.avatar.url}  alt="profile" width={50} height={50}/>
         </div>
       </div>
     
-      <ProfileCard text={"bio"} heading={"enjoy life"} Icon={FaInstagram} />
+      <ProfileCard text={user?.username} heading={"enjoy life"} Icon={FaInstagram} />
       
     </div>
   );

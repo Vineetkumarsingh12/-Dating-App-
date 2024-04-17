@@ -1,4 +1,5 @@
 import moment from "moment";
+import {userSocketIDs} from "../../server.js";
 
 
 const fileFormate=(url='')=>{
@@ -40,5 +41,11 @@ const  getLastSevenDays=()=>{
     return last7Days.reverse();
     
     }
+
+
+ const getSockets=(users)=>{
+ const sockets=users.map(user=>userSocketIDs.get(user._id.toString()));
+    return sockets;
+ }   
     
-export {getLastSevenDays,fileFormate,transformImage,};
+export {getLastSevenDays,fileFormate,transformImage,getSockets};

@@ -18,4 +18,7 @@ const requestSchema=new  Schema({
     
     }
 },{timestamps:true});
-export default models.requestSchema||model('Request',requestSchema);
+
+
+const requestModel= models.requestModel||model('requestModel',requestSchema);
+export default requestModel;

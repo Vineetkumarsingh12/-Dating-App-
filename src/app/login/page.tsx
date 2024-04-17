@@ -5,8 +5,21 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { FaCamera } from "react-icons/fa";
 import Image from 'next/image';
 import axios from "axios";
+import { useSelector,useDispatch} from "react-redux"; 
+import { userExists } from "@/lib/reducers/auth";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+//importing root state
+;
+
 
 export default function Page() {
+
+  const dispatch = useDispatch();
+    const router = useRouter();
+    const user = useSelector((state: any) => state.auth.user);
+    console.log("^^^^^^^^^^^ ",user);
+
     interface IFormInput {
         name: string;
         email: string;
@@ -36,40 +49,60 @@ export default function Page() {
         }
     };
 
-    const onSubmit = (data: IFormInput) => {
+    const onSubmit = async(data: IFormInput) => {
         console.log(data);
         const { name, email, password, confirmPassword } = data;
         // Your form submission logic here
-        if (isLogin) {
-            if (password !== confirmPassword) {
-                alert('Password and confirm password do not match');
-                return;
-            }
-            const formData = new FormData();
-            formData.append('name', name);
-            formData.append('email', email);
-            formData.append('password', password);
-            formData.append('image', image);
-            axios.post('http://localhost:5000/register', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+        try{
+            if (isLogin) {
+                if (password !== confirmPassword) {
+                    alert('Password and confirm password do not match');
+                    return;
                 }
-            }).then(res => {
-                console.log(res);
-            }).catch(err => {
-                console.error(err);
-            });
-        } else {
-            axios.post('http://localhost:5000/login', {
-                email,
-                password
-            }).then(res => {
-                console.log(res);
-            }).catch(err => {
-                console.error(err);
-            });
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('password', password);
+                formData.append('file', image);
+                formData.append('username', name);
+                console.log("formdata  ",formData);
+
+                console.log("image",image);
+            
+                //
+              const {data}= await axios.post('http://localhost:3000/api/user/signup', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Cache-Control': 'no-cache, no-store',
+                    }
+                })
+            router.push('/login');
+              toast.success(data.message);
+
+
+            } else {
+    
+                const {data}=await axios.post('http://localhost:3000/api/user/login', {
+                    email,
+                    password
+                  }, {
+                    headers: {
+                      'Cache-Control': 'no-cache, no-store',
+                      'Pragma': 'no-cache'
+                    }
+                  });
+                  console.log("&&&&&&&&")
+                    console.log(data);
+                    dispatch(userExists(data.user));
+                  router.push('/');
+                    toast.success(data.message);
         }
+        
+        } catch (error:any) {
+            console.error(error);
+            toast.error(error.message);
     }
+}
 
     return (
         <div className="flex justify-center items-center h-screen flex-col " style={{
